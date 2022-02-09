@@ -39,9 +39,6 @@ public class Robot extends TimedRobot {
     double x=JS.getRawAxis(1)/2; 
     double y=JS.getRawAxis(0)/2;
 
-    right1.setInverted(true); 
-    right2.setInverted(true); 
-    right3.setInverted(true);
 
     left1.set(x-y); 
     left2.set(x-y); 
@@ -105,12 +102,21 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    left1.setInverted(true);
+    left2.setInverted(true);
+    left3.setInverted(true);
+    right1.setInverted(false); 
+    right2.setInverted(false); 
+    right3.setInverted(false);
+    intake.setInverted(true);
+  }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     intakeHi();
+    drive();
   }
 
   /** This function is called once when the robot is disabled. */
