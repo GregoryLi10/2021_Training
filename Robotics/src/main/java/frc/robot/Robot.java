@@ -3,13 +3,14 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,22 +31,31 @@ public class Robot extends TimedRobot {
   public CANSparkMax right2=new CANSparkMax(5, MotorType.kBrushless);
   public CANSparkMax right3=new CANSparkMax(6, MotorType.kBrushless);
   public Joystick JS=new Joystick(0);
+  public JoystickButton intakeB=new JoystickButton(JS, 13);
+  private boolean on=false, pressed=false;
 
   public void intakeHi(){
-    intake.set(0.7);
-  } 
+    if (intakeB.get()&&!pressed){
+      on=!on; 
+      pressed=true;
+    } 
+    else pressed=false;
+    if (on) intake.set(0.8);
+    else intake.set(0);
+  }
 
   public void drive(){
-    double x=JS.getRawAxis(1)/2; 
-    double y=JS.getRawAxis(0)/2;
+    double x=JS.getRawAxis(0); 
+    double y=JS.getRawAxis(1);
+    // System.out.println(y);
+    // double z=
 
-
-    left1.set(x-y); 
-    left2.set(x-y); 
-    left3.set(x-y);
-    right1.set(x+y); 
-    right2.set(x+y); 
-    right3.set(x+y);
+    left1.set(y-x); 
+    left2.set(y-x); 
+    left3.set(y-x);
+    right1.set(y+x); 
+    right2.set(y+x); 
+    right3.set(y+x);
   }
 
   /**
